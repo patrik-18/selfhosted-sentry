@@ -1,0 +1,15 @@
+sentry:
+  config:
+    system.secret-key: "random-generated-secret"
+  postgresql:
+    enabled: false  # AWS RDS instead
+  redis:
+    enabled: false  # AWS ElastiCache
+  clickhouse:
+    enabled: true
+  relay:
+    enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - host: sentry.local

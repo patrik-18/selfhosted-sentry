@@ -1,0 +1,40 @@
+name: Terraform apply
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        type: choice
+        description: 'Environment type [test]'
+        required: true
+        options:
+        - test
+
+jobs:
+  deploy-eks:
+    name: Deploy Sentry to EKS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Set up kubectl
+        run: |
+          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name selfhosted-sentry-eks
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+
+      - name: Deploy Sentry Helm Chart
+        run: |
+          helm repo add sentry https://sentry-kubernetes.github.io/charts
+          helm repo update
+          helm upgrade --install sentry sentry/sentry -f helm-charts/sentry/values.yaml -n sentry --wait --timeout=1000s
+      
