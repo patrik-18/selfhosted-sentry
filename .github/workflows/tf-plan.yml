@@ -1,0 +1,44 @@
+name: Terraform plan
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        type: choice
+        description: 'Environment type [test]'
+        required: true
+        options:
+        - test
+
+jobs:
+  tfm-plan:
+    name: tfm-plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        id: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Configure AWS Credentials for AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-duration-seconds: 3600
+          aws-region: ${{ secrets.AWS_REGION }}
+          mask-aws-account-id: "no"
+
+      - name: Terraform Install
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.9.5
+      - name: Terraform init & plan
+        run: |
+          echo "Cleaning up .terraform folder"
+          rm -rf .terraform
+          echo "Running terraform init"
+          terraform init --backend-config="./variables/backend.tfvars"
+          echo "Running terraform plan"
+          terraform plan --var-file="./variables/variables.tfvars"
+        working-directory: ./terraform/
