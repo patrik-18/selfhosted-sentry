@@ -9,17 +9,11 @@ on:
         required: true
         options:
           - test
-      confirm:
-        type: boolean
-        description: 'Confirm that you want to destroy the environment'
-        required: true
 
 jobs:
   tfm-destroy:
     name: tfm-destroy
-    if: ${{ github.event.inputs.confirm == true }} # Runs only if confirmed
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout the repository
         id: checkout
