@@ -9,11 +9,17 @@ on:
         required: true
         options:
           - test
+      confirm:
+        type: boolean
+        description: 'Confirm that you want to destroy the environment'
+        required: true
 
 jobs:
   tfm-destroy:
     name: tfm-destroy
+    if: ${{ github.event.inputs.confirm == true }} # Runs only if confirmed
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout the repository
         id: checkout
@@ -35,8 +41,10 @@ jobs:
 
       - name: Terraform Init & Destroy
         run: |
+          echo "Cleaning up .terraform folder"
+          rm -rf .terraform
           echo "Running terraform init"
-          terraform init
+          terraform init --backend-config="./variables/backend.tfvars"
           echo "Running terraform destroy"
           terraform destroy -auto-approve --var-file="./variables/variables.tfvars"
         working-directory: ./terraform/
