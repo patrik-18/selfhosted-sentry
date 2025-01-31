@@ -68,8 +68,8 @@ resource "aws_route_table_association" "test_private_rtb_1a_db" {
   route_table_id  = aws_route_table.test_private_rtb_1a.id
 }
 
-resource "aws_route_table_association" "test_private_rtb_1a_ecs" {
-  subnet_id       = module.subnets.private_ecs_subnet_1a_id
+resource "aws_route_table_association" "test_private_rtb_1a_eks" {
+  subnet_id       = module.subnets.private_eks_subnet_1a_id
   route_table_id  = aws_route_table.test_private_rtb_1a.id
 }
 
@@ -99,8 +99,8 @@ resource "aws_route_table_association" "test_private_rtb_1b_db" {
   route_table_id  = aws_route_table.test_private_rtb_1b.id
 }
 
-resource "aws_route_table_association" "test_private_rtb_1b_ecs" {
-  subnet_id       = module.subnets.private_ecs_subnet_1b_id
+resource "aws_route_table_association" "test_private_rtb_1b_eks" {
+  subnet_id       = module.subnets.private_eks_subnet_1b_id
   route_table_id  = aws_route_table.test_private_rtb_1b.id
 }
 
