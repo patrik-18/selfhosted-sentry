@@ -35,8 +35,6 @@ jobs:
 
       - name: Terraform Init & Destroy
         run: |
-          echo "Cleaning up .terraform folder"
-          rm -rf .terraform
           echo "Running terraform init"
           terraform init
           echo "Running terraform destroy"
