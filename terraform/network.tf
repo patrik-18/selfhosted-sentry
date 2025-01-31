@@ -35,7 +35,7 @@ module "subnets" {
 }
 
 module "route_tables_public" {
-  source = "../../modules/route_tables"
+  source = "./modules/route_tables"
 
   vpc_id      = module.my_vpc.vpc_id 
   subnet_ids  = [ module.subnets.public_subnet_1a_id,module.subnets.public_subnet_1b_id ]
