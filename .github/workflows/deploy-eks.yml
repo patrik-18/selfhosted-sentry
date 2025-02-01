@@ -36,5 +36,6 @@ jobs:
         run: |
           helm repo add sentry https://sentry-kubernetes.github.io/charts
           helm repo update
-          helm upgrade --install sentry sentry/sentry -f helm-charts/sentry/values.yaml -n sentry --wait --timeout=1000s
+          helm upgrade --install sentry sentry/sentry -f helm-charts/sentry/values.yaml -n sentry --create-namespace --wait --timeout=1000s
+
       
