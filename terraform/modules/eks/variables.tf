@@ -37,8 +37,3 @@ variable "iam_users" {
   description = "IAM users to map to the EKS cluster"
   type        = list(string)
 }
-
-variable "iam_roles" {
-  description = "IAM roles to map to the EKS cluster"
-  type        = list(string)
-}

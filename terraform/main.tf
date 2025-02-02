@@ -15,16 +15,12 @@ module "eks" {
   source         = "./modules/eks"
   cluster_name   = "selfhosted-sentry-eks"
   k8s_version    = "1.31"
-  subnet_ids     = [module.subnets.private_eks_subnet_1a_id,module.subnets.private_eks_subnet_1b_id]
+  subnet_ids     = [module.subnets.private_eks_subnet_1a_id, module.subnets.private_eks_subnet_1b_id]
   node_count     = 2
   node_min       = 1
   node_max       = 3
   instance_types = ["t3.medium"]
   iam_users      = [
     "arn:aws:iam::688567297177:user/cicd-automation"
-  ]
-  iam_roles      = [
-    "arn:aws:iam::688567297177:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS",
-    "arn:aws:iam::688567297177:role/aws-reserved/sso.amazonaws.com/eu-central-1/AWSReservedSSO_AdministratorAccess_1b62506be57cbea2"
   ]
 }
