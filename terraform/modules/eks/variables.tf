@@ -4,28 +4,16 @@ variable "cluster_name" {
 
 variable "k8s_version" {
   description = "Kubernetes version"
-  default     = "1.27"
+  default     = "1.31"
 }
 
 variable "subnet_ids" {
-  description = "List of subnet IDs for the EKS cluster"
+  description = "List of private subnet IDs for the EKS cluster"
   type        = list(string)
-}
-
-variable "cluster_tags" {
-  description = "Tags for the EKS cluster"
-  type        = map(string)
-  default     = {}
-}
-
-variable "instance_types" {
-  description = "Instance types for the node group"
-  type        = list(string)
-  default     = ["t3.medium"]
 }
 
 variable "node_count" {
-  description = "Desired number of nodes in the group"
+  description = "Desired number of nodes"
   default     = 2
 }
 
@@ -36,11 +24,21 @@ variable "node_min" {
 
 variable "node_max" {
   description = "Maximum number of nodes"
-  default     = 4
+  default     = 3
 }
 
-variable "node_tags" {
-  description = "Tags for the node group"
-  type        = map(string)
-  default     = {}
+variable "instance_types" {
+  description = "EC2 instance types for the node group"
+  type        = list(string)
+  default     = ["t3.medium"]
+}
+
+variable "iam_users" {
+  description = "IAM users to map to the EKS cluster"
+  type        = list(string)
+}
+
+variable "iam_roles" {
+  description = "IAM roles to map to the EKS cluster"
+  type        = list(string)
 }

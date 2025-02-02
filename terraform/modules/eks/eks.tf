@@ -6,30 +6,6 @@ resource "aws_eks_cluster" "eks" {
   vpc_config {
     subnet_ids = var.subnet_ids
   }
-
-  tags = merge(
-    {
-      Name = var.cluster_name
-    },
-    var.cluster_tags
-  )
-}
-
-resource "aws_iam_role" "eks_role" {
-  name = "${var.cluster_name}-eks-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          Service = "eks.amazonaws.com"
-        }
-        Action = "sts:AssumeRole"
-      }
-    ]
-  })
 }
 
 resource "aws_eks_node_group" "eks_nodes" {
@@ -44,38 +20,36 @@ resource "aws_eks_node_group" "eks_nodes" {
     min_size     = var.node_min
     max_size     = var.node_max
   }
-
-  tags = merge(
-    {
-      Name = "${var.cluster_name}-node-group"
-    },
-    var.node_tags
-  )
 }
 
-resource "aws_iam_role" "node_role" {
-  name = "${var.cluster_name}-node-role"
+resource "kubernetes_config_map" "aws_auth" {
+  depends_on = [aws_eks_cluster.eks]
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
+  metadata {
+    name      = "aws-auth"
+    namespace = "kube-system"
+  }
+
+  data = {
+    mapRoles = jsonencode([
       {
-        Effect = "Allow"
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-        Action = "sts:AssumeRole"
+        rolearn  = aws_iam_role.node_role.arn
+        username = "system:node:{{EC2PrivateDNSName}}"
+        groups   = ["system:bootstrappers", "system:nodes"]
+      },
+      {
+        rolearn  = var.iam_roles[0]
+        username = "admin"
+        groups   = ["system:masters"]
       }
-    ]
-  })
-}
+    ])
 
-output "eks_cluster_name" {
-  description = "EKS Cluster Name"
-  value       = aws_eks_cluster.eks.name
-}
-
-output "eks_oidc_provider" {
-  description = "EKS OIDC Provider"
-  value       = aws_eks_cluster.eks.identity[0].oidc[0].issuer
+    mapUsers = jsonencode([
+      {
+        userarn  = var.iam_users[0]
+        username = "admin"
+        groups   = ["system:masters"]
+      }
+    ])
+  }
 }
