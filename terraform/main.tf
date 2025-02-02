@@ -15,7 +15,7 @@ module "eks" {
   source         = "./modules/eks"
   cluster_name   = "selfhosted-sentry-eks"
   k8s_version    = "1.31"
-  subnet_ids     = module.network.private_subnets
+  subnet_ids     = [module.subnets.private_eks_subnet_1a_id,module.subnets.private_eks_subnet_1b_id]
   node_count     = 2
   node_min       = 1
   node_max       = 3
