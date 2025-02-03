@@ -24,3 +24,18 @@ module "eks" {
     "arn:aws:iam::688567297177:user/cicd-automation"
   ]
 }
+
+module "rds" {
+  source         = "./modules/rds"
+  db_username   = local.secret_data.username
+  db_password   = local.secret_data.password
+  db_subnet_group = "sentry-db-subnet"
+  security_group = module.vpc.security_group_id
+  subnet_ids    = module.vpc.private_subnets
+}
+
+module "elasticache" {
+  source         = "./modules/elasticache"
+  security_group = module.vpc.security_group_id
+  subnet_ids    = module.vpc.private_subnets
+}

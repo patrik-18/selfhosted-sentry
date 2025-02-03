@@ -15,7 +15,7 @@ resource "kubernetes_config_map" "aws_auth" {
       },
       {
         rolearn  = "arn:aws:iam::688567297177:role/aws-reserved/sso.amazonaws.com/eu-central-1/AWSReservedSSO_AdministratorAccess_1b62506be57cbea2"
-        username = "pkristel"
+        username = "kristel"
         groups   = ["system:masters"]
       }
     ])
