@@ -14,7 +14,7 @@ resource "aws_db_instance" "sentry_db" {
   backup_retention_period = 7
   skip_final_snapshot    = true
   apply_immediately      = true
-  parameter_group_name  = "default.postgres15"
+  parameter_group_name  = "default.postgres16"
 }
 
 resource "aws_db_subnet_group" "sentry_db_subnet" {
