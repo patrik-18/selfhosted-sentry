@@ -1,5 +1,5 @@
 resource "aws_security_group" "sg_rds" {
-  name        = "sg-rds-sentry"
+  name        = "rds-sentry"
   description = "Security group for RDS PostgreSQL"
   vpc_id    = module.my_vpc.vpc_id
 
@@ -24,7 +24,7 @@ resource "aws_security_group" "sg_rds" {
 }
 
 resource "aws_security_group" "sg_redis" {
-  name        = "sg-redis-sentry"
+  name        = "redis-sentry"
   description = "Security group for ElastiCache Redis"
   vpc_id    = module.my_vpc.vpc_id
 
