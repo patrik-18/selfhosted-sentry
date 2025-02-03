@@ -30,12 +30,12 @@ module "rds" {
   db_username   = local.secret_data.username
   db_password   = local.secret_data.password
   db_subnet_group = "sentry-db-subnet"
-  security_group = module.vpc.security_group_id
-  subnet_ids    = module.vpc.private_subnets
+  security_group = aws_security_group.sg_rds.id
+  subnet_ids    = [module.subnets.private_db_subnet_1a_id, module.subnets.private_db_subnet_1b_id]
 }
 
 module "elasticache" {
   source         = "./modules/elasticache"
-  security_group = module.vpc.security_group_id
-  subnet_ids    = module.vpc.private_subnets
+  security_group = aws_security_group.sg_redis.id
+  subnet_ids    = [module.subnets.private_db_subnet_1a_id, module.subnets.private_db_subnet_1b_id]
 }
