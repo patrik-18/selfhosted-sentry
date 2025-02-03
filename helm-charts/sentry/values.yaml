@@ -1,14 +1,29 @@
 sentry:
   config:
-    system.secret-key: "random-generated-secret"
+
+    database:
+      name: "postgres"
+      user: "dbadmin"
+      password: "xxxxxx*"
+      host: "sentry-postgres.cjm2c2msyurt.eu-central-1.rds.amazonaws.com"
+      port: 5432
+    redis:
+      useCluster: false
+      host: "sentry-redis.3tes1o.0001.euc1.cache.amazonaws.com"
+      port: 6379
+
   postgresql:
-    enabled: false  # AWS RDS instead
+    enabled: false
+
   redis:
-    enabled: false  # AWS ElastiCache
+    enabled: false
+
   clickhouse:
     enabled: true
+
   relay:
     enabled: true
+
   ingress:
     enabled: true
     hosts:
