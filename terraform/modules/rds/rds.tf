@@ -3,7 +3,7 @@ resource "aws_db_instance" "sentry_db" {
   allocated_storage      = 20
   storage_type           = "gp2"
   engine                = "postgres"
-  engine_version        = "15.3"
+  engine_version        = "16.4"
   instance_class        = "db.t3.medium"
   username              = var.db_username
   password              = var.db_password

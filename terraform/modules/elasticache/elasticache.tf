@@ -8,7 +8,7 @@ resource "aws_elasticache_cluster" "sentry_redis" {
   engine               = "redis"
   node_type            = "cache.t3.micro"
   num_cache_nodes      = 1
-  parameter_group_name = "default.redis6.x"
+  parameter_group_name = "default.redis7"
   subnet_group_name    = aws_elasticache_subnet_group.sentry_redis_subnet.name
   security_group_ids   = [var.security_group]
 }
