@@ -40,5 +40,5 @@ jobs:
           echo "Running terraform init"
           terraform init --backend-config="./variables/backend.tfvars"
           echo "Running terraform apply"
-          terraform apply -auto-approve --var-file="./variables/variables.tfvars"
+          terraform destroy -auto-approve --var-file="./variables/variables.tfvars"
         working-directory: ./terraform/
